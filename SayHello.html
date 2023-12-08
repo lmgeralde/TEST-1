@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Title</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    #content-container {
+      text-align: center;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    input {
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #1338BE;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1C2951;
+    }
+
+    #sumlabel {
+      margin-top: 10px;
+      display: block;
+      color: #333;
+    }
+
+    a {
+      text-decoration: none;
+      color: #3498db;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #2980b9;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="content-container">
+    <label for="fname">Please put your name here:</label><br>
+    <input type="text" id="fname">
+    <button onclick="sayhello()">Say Hello</button>
+    <br>
+    <h2 id="Luigi"> </h2>
+    <br>
+    <a href="index.html">Back to home page</a>
+  </div>
+
+  <script>
+    function sayhello() {
+      var name;
+      name = document.getElementById("fname").value
+      document.getElementById("Luigi").innerHTML = 'Hello, welcome! ' + name;
+    }
+  </script>
+</body>
+
+</html>
