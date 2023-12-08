@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Factorial, Sum, and Average</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            color: #000000;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .wrapper {
+            text-align: center;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #333; 
+            border-radius: 10px; 
+            width: 400px; 
+            margin-top: 40px; 
+        }
+
+        h1 {
+            margin-top: 0; 
+        }
+
+        button {
+            background-color: #1338BE;
+            color: #f4f4f4;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        #backToHomepage {
+            color: #333;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            display: block; /* Display as a block element */
+        }
+
+        #backToHomepage:hover {
+            color: #FED000; 
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="container">
+            <h1>Factorial, Sum, and Average</h1>
+
+            <label for="number">Enter a number:</label>
+            <input type="number" id="number">
+            <button onclick="calculate()">Calculate</button>
+
+            <div id="results"></div>
+        </div>
+
+        <a href="portfolio.html" id="backToHomepage">Back to Homepage</a>
+    </div>
+
+    <script>
+        function calculate() {
+            const n = parseInt(document.getElementById('number').value);
+
+            if (isNaN(n) || n < 0) {
+                alert('Please enter a non-negative integer.');
+                return;
+            }
+
+            const factorial = calculateFactorial(n);
+            const sum = calculateSum(n);
+            const average = sum / n;
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <p>The ${ordinalSuffix(n)} factorial is: ${factorial}</p>
+                <p>The sum of the first ${n} numbers is: ${sum}</p>
+                <p>The average of the first ${n} numbers is: ${average.toFixed(2)}</p>
+            `;
+        }
+
+        function calculateFactorial(number) {
+            let result = 1;
+            for (let i = 2; i <= number; i++) {
+                result *= i;
+            }
+            return result;
+        }
+
+        function calculateSum(number) {
+            let sum = 0;
+            for (let i = 1; i <= number; i++) {
+                sum += i;
+            }
+            return sum;
+        }
+
+        function ordinalSuffix(number) {
+            const suffixes = ['st', 'nd', 'rd'];
+            const remainder10 = number % 10;
+            const remainder100 = number % 100;
+
+            if (remainder10 >= 1 && remainder10 <= 3 && (remainder100 < 10 || remainder100 >= 20)) {
+                return number + suffixes[remainder10 - 1];
+            } else {
+                return number + 'th';
+            }
+        }
+    </script>
+
+</body>
+
+</html>
