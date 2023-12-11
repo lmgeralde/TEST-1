@@ -73,6 +73,41 @@
         #backToHomepage:hover {
             color: #FED000; /* Change to your desired hover color */
         }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -95,6 +130,14 @@
     <button onclick="convert()">Convert</button>
 
     <p id="result"></p>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p id="modalText"></p>
+        </div>
+    </div>
 
     <script>
         function convert() {
@@ -123,6 +166,22 @@
                 default:
                     resultElement.innerHTML = "Invalid conversion type.";
             }
+
+            // Show the modal with the converted result
+            showModal(resultElement.innerHTML);
+        }
+
+        function showModal(text) {
+            var modal = document.getElementById("myModal");
+            var modalText = document.getElementById("modalText");
+
+            modal.style.display = "block";
+            modalText.innerHTML = text;
+        }
+
+        function closeModal() {
+            var modal = document.getElementById("myModal");
+            modal.style.display = "none";
         }
     </script>
 
