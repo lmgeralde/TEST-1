@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Payroll</title>
+    <!-- Load external CSS styles -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        button {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #1338BE;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4fa3d1;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1338BE;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Additional styles for the homepage link */
+        a {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #1338BE;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+        }
+
+        .modal-close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .modal-close-btn:hover,
+        .modal-close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .modal-confirm-btn {
+            background-color: #1338BE;
+            color: white;
+        }
+
+        .modal-cancel-btn {
+            background-color: #ccc;
+            color: black;
+        }
+
+        .modal-btn:hover {
+            background-color: #4fa3d1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Payroll</h1>
+
+    <label for="employeeName">Employee Name:</label>
+    <input type="text" id="employeeName"><br><br>
+
+    <label for="daysWorked">Days Worked:</label>
+    <input type="number" id="daysWorked"><br><br>
+
+    <label for="dailyRate">Daily Rate:</label>
+    <input type="number" id="dailyRate"><br><br>
+
+    <label for="deductionAmount">Deduction Amount:</label>
+    <input type="number" id="deductionAmount"><br><br>
+
+    <button onclick="addEmployee()">Add Employee</button><br><br>
+
+    <table border="1" id="payrollTable">
+        <!--table header-->
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Employee Name</th>
+                <th>Days Worked</th>
+                <th>Daily Rate</th>
+                <th>Gross Pay</th>
+                <th>Deduction Amount</th>
+                <th>Net Pay</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tfoot>
+            <tr>
+                <td>1</td>
+                <td>John Smith</td>
+                <td>30</td>
+                <td>500</td>
+                <td>1500</td>
+                <td>2000</td>
+                <td>1500</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Peter Dalley</td>
+                <td>20</td>
+                <td>600</td>
+                <td>12000</td>
+                <td>3000</td>
+                <td>9000</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Gregory Page</td>
+                <td>20</td>
+                <td>500</td>
+                <td>10000</td>
+                <td>2500</td>
+                <td>7500</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Amanda Williams</td>
+                <td>25</td>
+                <td>600</td>
+                <td>15000</td>
+                <td>2000</td>
+                <td>13000</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <a href="portfolio.html">Back to homepage</a><br><br><br>
+
+    <button onclick="openClearPayrollModal()">Clear Payroll</button><br><br>
+
+    <label for="deleteLine">Enter Line Number to Delete:</label>
+    <input type="number" id="deleteLine">
+    <button onclick="openDeleteEmployeeModal()">Delete Employee</button>
+
+    <!-- Modal for clearing payroll -->
+    <div id="clearPayrollModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close-btn" onclick="closeClearPayrollModal()">&times;</span>
+            <h2>Clear Payroll</h2>
+            <p>Are you sure you want to clear the payroll?</p>
+            <button class="modal-btn modal-confirm-btn" onclick="clearPayroll()">Confirm</button>
+            <button class="modal-btn modal-cancel-btn" onclick="closeClearPayrollModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Modal for deleting employee -->
+    <div id="deleteEmployeeModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close-btn" onclick="closeDeleteEmployeeModal()">&times;</span>
+            <h2>Delete Employee</h2>
+            <p id="deleteEmployeeDetails"></p>
+            <button class="modal-btn modal-confirm-btn" onclick="deleteEmployee()">Confirm</button>
+            <button class="modal-btn modal-cancel-btn" onclick="closeDeleteEmployeeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        let payrollList = [];
+
+        function addEmployee() {
+            const employeeName = document.getElementById('employeeName').value;
+            const daysWorked = parseInt(document.getElementById('daysWorked').value);
+            const dailyRate = parseFloat(document.getElementById('dailyRate').value);
+            const deductionAmount = parseFloat(document.getElementById('deductionAmount').value);
+
+            const grossPay = daysWorked * dailyRate;
+            const netPay = grossPay - deductionAmount;
+
+            const newEmployee = {
+                employeeName: employeeName,
+                daysWorked: daysWorked,
+                dailyRate: dailyRate,
+                grossPay: grossPay,
+                deductionAmount: deductionAmount,
+                netPay: netPay
+            };
+
+            payrollList.push(newEmployee);
+            displayPayroll();
+        }
+
+        function openClearPayrollModal() {
+            const modal = document.getElementById('clearPayrollModal');
+            modal.style.display = 'block';
+        }
+
+        function closeClearPayrollModal() {
+            const modal = document.getElementById('clearPayrollModal');
+            modal.style.display = 'none';
+        }
+
+        function deleteEmployee() {
+            const deleteLine = parseInt(document.getElementById('deleteLine').value);
+
+            if (deleteLine >= 1 && deleteLine <= payrollList.length) {
+                payrollList.splice(deleteLine - 1, 1);
+                displayPayroll();
+            } else {
+                alert('Invalid line number to delete!');
+            }
+        }
+
+        function clearPayroll() {
+            // Clear the payroll list
+            payrollList = [];
+            // Update the display
+            displayPayroll();
+            // Close the modal
+            closeClearPayrollModal();
+        }
+
+        function openDeleteEmployeeModal() {
+            const modal = document.getElementById('deleteEmployeeModal');
+            modal.style.display = 'block';
+
+            const deleteLine = parseInt(document.getElementById('deleteLine').value);
+            const employeeToDelete = payrollList[deleteLine - 1];
+
+            // Display employee details in the modal
+            document.getElementById('deleteEmployeeDetails').innerHTML =
+                `Name: ${employeeToDelete.employeeName}<br>` +
+                `Days Worked: ${employeeToDelete.daysWorked}<br>` +
+                `Daily Rate: ${employeeToDelete.dailyRate}<br>` +
+                `Gross Pay: ${employeeToDelete.grossPay.toFixed(2)}<br>` +
+                `Deduction Amount: ${employeeToDelete.deductionAmount.toFixed(2)}<br>` +
+                `Net Pay: ${employeeToDelete.netPay.toFixed(2)}<br>`;
+        }
+
+        function closeDeleteEmployeeModal() {
+            const modal = document.getElementById('deleteEmployeeModal');
+            modal.style.display = 'none';
+        }
+
+        function displayPayroll() {
+            const table = document.getElementById('payrollTable');
+            table.innerHTML = '<tr><th>No.</th><th>Employee Name</th><th>Days Worked</th><th>Daily Rate</th><th>Gross Pay</th><th>Deduction Amount</th><th>Net Pay</th><th>Action</th></tr>';
+
+            payrollList.forEach((employee, index) => {
+                const row = table.insertRow(-1);
+                const cellNo = row.insertCell(0);
+                const cellName = row.insertCell(1);
+                const cellDays = row.insertCell(2);
+                const cellRate = row.insertCell(3);
+                const cellGross = row.insertCell(4);
+                const cellDeduction = row.insertCell(5);
+                const cellNet = row.insertCell(6);
+                const cellDelete = row.insertCell(7);
+
+                cellNo.innerHTML = index + 1;
+                cellName.innerHTML = employee.employeeName;
+                cellDays.innerHTML = employee.daysWorked;
+                cellRate.innerHTML = employee.dailyRate;
+                cellGross.innerHTML = employee.grossPay.toFixed(2); // Format to two decimal places
+                cellDeduction.innerHTML = employee.deductionAmount.toFixed(2); // Format to two decimal places
+                cellNet.innerHTML = employee.netPay.toFixed(2); // Format to two decimal places
+                cellDelete.innerHTML = '<button onclick="openDeleteEmployeeModal()">Delete</button>';
+            });
+        }
+    </script>
+
+</body>
+
+</html>
